@@ -68,7 +68,6 @@ Vagrant.configure(2) do |config|
     #!/usr/bin/env bash
 
     sudo apt-get update
-    sudo apt-get -y upgrade
     sudo apt-get -y install git
 
     git clone -b stable/liberty https://git.openstack.org/openstack-dev/devstack 
