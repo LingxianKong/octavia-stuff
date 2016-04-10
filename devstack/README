@@ -13,14 +13,14 @@ AttributeError: 'module' object has no attribute 'PortOpt'
 
 我的解决方法是创建virtualenv，在virtualenv中安装octavia及其依赖，并在virtualenv中启动octavia相关服务。以octavia-api为例：
 
-pip install virtualenvwrapper
+sudo pip install virtualenvwrapper
 export WORKON_HOME=~/Envs
 export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 mkdir -p $WORKON_HOME
 source /usr/local/bin/virtualenvwrapper.sh  
 mkvirtualenv octavia
 cd /opt/stack/octavia
-pip install -r requirement.txt
+pip install -r requirements.txt
 python setup.py install
 修改octavia.conf配置文件，启动debug
 ~/Envs/octavia/bin/python /usr/local/bin/octavia-api --config-file /etc/octavia/octavia.conf & echo $! >/opt/stack/status/stack/o-api.pid; fg || echo "o-api failed to start" | tee "/opt/stack/status/stack/o-api.failure"
