@@ -19,8 +19,7 @@ export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 mkdir -p $WORKON_HOME
 source /usr/local/bin/virtualenvwrapper.sh  
 mkvirtualenv octavia
-cd /opt/stack/octavia
-pip install -r requirements.txt
+cd /opt/stack/octavia && pip install -r requirements.txt
 python setup.py install
 修改octavia.conf配置文件，启动debug
 ~/Envs/octavia/bin/python /usr/local/bin/octavia-api --config-file /etc/octavia/octavia.conf & echo $! >/opt/stack/status/stack/o-api.pid; fg || echo "o-api failed to start" | tee "/opt/stack/status/stack/o-api.failure"
@@ -29,6 +28,5 @@ python setup.py install
 
 export WORKON_HOME=~/Envs
 export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
-source /usr/local/bin/virtualenvwrapper.sh
-workon octavia
+source /usr/local/bin/virtualenvwrapper.sh && workon octavia
 ~/Envs/octavia/bin/python ...
