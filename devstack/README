@@ -30,3 +30,18 @@ export WORKON_HOME=~/Envs
 export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 source /usr/local/bin/virtualenvwrapper.sh && workon octavia
 ~/Envs/octavia/bin/python ...
+
+=====================================================
+
+当devstack虚拟机重启时，需要做一些工作以保证octavia服务运行正常。
+
+- 首先，需要启动amphorae虚拟机，以保证health monitor正常监听，防止虚拟机被failover
+- 激活o-hm0虚拟网卡
+
+    neutron port-list | grep octavia-health-manager-listen-port
+    neutron port-show d4c7d881-9be4-4876-823e-024348e14331
+    sudo ovs-vsctl set Interface o-hm0 type=internal -- set Interface o-hm0 external-ids:iface-status=active -- set Interface o-hm0 external-ids:attached-mac=fa:16:3e:7a:75:a5 -- set Interface o-hm0 external-ids:iface-id=d4c7d881-9be4-4876-823e-024348e14331
+    sudo ip link set dev o-hm0 address fa:16:3e:7a:75:a5
+    sudo dhclient -v o-hm0
+
+- 在virtualenv中启动octavia各个服务进程
