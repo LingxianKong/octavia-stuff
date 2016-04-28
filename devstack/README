@@ -27,6 +27,7 @@ debug
 loadbalancer_topology
 rest_request_read_timeout
 rest_request_conn_timeout
+connection_retry_interval
 
 ~/Envs/octavia/bin/python /usr/local/bin/octavia-api --config-file /etc/octavia/octavia.conf & echo $! >/opt/stack/status/stack/o-api.pid; fg || echo "o-api failed to start" | tee "/opt/stack/status/stack/o-api.failure"
 
