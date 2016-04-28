@@ -1,3 +1,5 @@
+=====================================================
+
 因为在安装devstack时，我们使用mitaka版本的octavia与liberty版本的neutron/neutron-lbaas集成，在启动octavia服务时，会有很多依赖包的版本不对，导致octavia进程启动失败。比如：
 
 Traceback (most recent call last):
@@ -37,6 +39,16 @@ export WORKON_HOME=~/Envs
 export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 source /usr/local/bin/virtualenvwrapper.sh && workon octavia
 ~/Envs/octavia/bin/python ...
+
+=====================================================
+
+虽然使用devstack安装的是mitaka版本的octavia，但build amphorae镜像时，默认却使用的是master分支的amphora-agent。这样就有可能导致octavia-worker与amphorae vm通信时存在一些问题。比如如下的patch：
+https://github.com/openstack/octavia/commit/b89abe18718964f53b463a723551ce73673ee135
+该patch在amphorae虚拟机内部引入了namespace，但mitaka的octavia-worker并不知道，在查询network interface时失败。解决办法如下：
+在进行devstack安装前，在stack用户下，提前clone octavia mitaka代码，手动修改如下文件：
+sed -i 's:octavia:octavia stable/mitaka:' octavia/elements/amphora-agent-ubuntu/source-repository-amphora-agent
+将local.conf文件的RECLONE=False，
+然后，正常安装devstack即可。
 
 =====================================================
 
