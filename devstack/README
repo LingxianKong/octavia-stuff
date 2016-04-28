@@ -21,7 +21,13 @@ source /usr/local/bin/virtualenvwrapper.sh
 mkvirtualenv octavia
 cd /opt/stack/octavia && pip install -r requirements.txt
 python setup.py install
-修改octavia.conf配置文件，启动debug
+
+修改octavia.conf配置文件，
+debug
+loadbalancer_topology
+rest_request_read_timeout
+rest_request_conn_timeout
+
 ~/Envs/octavia/bin/python /usr/local/bin/octavia-api --config-file /etc/octavia/octavia.conf & echo $! >/opt/stack/status/stack/o-api.pid; fg || echo "o-api failed to start" | tee "/opt/stack/status/stack/o-api.failure"
 
 这样，对于其他几个进程，执行如下：
